@@ -14,6 +14,7 @@ for i in 1...5 {
 
 print(r);
 
+// time complexity: O(2^n)
 func cutRod(p:Array<Double>, n:Int) -> Double {
     if (n == 0) {
         return 0;
@@ -28,6 +29,7 @@ func cutRod(p:Array<Double>, n:Int) -> Double {
 
 print(cutRod(p: [3,2,5,10], n: 4))
 
+// time complexity: O(n^2)
 func MemoizedCutRod(p:Array<Double>, n:Int,  r: Array<Double>) -> Double {
     var r = r;
     if r[n] >= 0 {
@@ -48,6 +50,7 @@ func MemoizedCutRod(p:Array<Double>, n:Int,  r: Array<Double>) -> Double {
 
 print(MemoizedCutRod(p: [3,2,5,10], n: 4,r:Array<Double>(repeating: -10000, count: 7)))
 
+// time complexity: O(n^2)
 func BottomUPcutRod(p:Array<Double>, n:Int) -> Double {
     var r = Array<Double>([0,0,0,0,0,0,0,0,0,0,0,0,0])
     r[0] = 0;
