@@ -14,9 +14,6 @@ for i in 1...5 {
 
 print(r);
 
-
-
-
 func cutRod(p:Array<Double>, n:Int) -> Double {
     if (n == 0) {
         return 0;
