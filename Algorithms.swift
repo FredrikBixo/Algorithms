@@ -2,6 +2,8 @@ import UIKit
 
 var str = "Hello, playground"
 
+typealias IntMatrix = Array<Array<Int>>
+
 var r = Array<Int>(repeating: 0, count: 6)
 r[0] = 1;
 for i in 1...5 {
@@ -11,8 +13,6 @@ for i in 1...5 {
     }
      r[i] = sum;
 }
-
-print(r);
 
 // time complexity: O(2^n)
 func cutRod(p:Array<Double>, n:Int) -> Double {
@@ -48,8 +48,6 @@ func MemoizedCutRod(p:Array<Double>, n:Int,  r: Array<Double>) -> Double {
     return q;
 }
 
-print(MemoizedCutRod(p: [3,2,5,10], n: 4,r:Array<Double>(repeating: -10000, count: 7)))
-
 // time complexity: O(n^2)
 func BottomUPcutRod(p:Array<Double>, n:Int) -> Double {
     var r = Array<Double>([0,0,0,0,0,0,0,0,0,0,0,0,0])
@@ -65,5 +63,32 @@ func BottomUPcutRod(p:Array<Double>, n:Int) -> Double {
     return r[n];
 }
 
-print(BottomUPcutRod(p: [3,2,5,10], n: 4))
+// time complexity: O(n^2)
+func longestSubSequence(X: [Character], Y:[Character]) -> (IntMatrix,IntMatrix) {
+    
+    let m = X.count
+    let n = Y.count
+    var b = Array(repeating: Array(repeating: -1, count: n), count: m)
+    var c = Array(repeating: Array(repeating: 0, count: n+1), count: m+1)
+    
+    for i in 1..<m+1 {
+        for j in 1..<n+1 {
+            if X[i-1] == Y[j-1] {
+                print(X[i-1])
+                c[i][j] = c[i-1][j-1] + 1
+                // up left
+                b[i-1][j-1] = 1
+            } else if c[i-1][j] >= c[i][j-1] {
+                c[i][j] = c[i-1][j]
+                // up
+                b[i-1][j-1] = 2
+            } else {
+                // left
+                b[i-1][j-1] = 0
+            }
+        }
+    }
+    
+    return (c,b)
+}
 
