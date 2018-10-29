@@ -63,7 +63,7 @@ func BottomUPcutRod(p:Array<Double>, n:Int) -> Double {
     return r[n];
 }
 
-// time complexity: O(n^2)
+// time complexity: O(n*m)
 func longestSubSequence(X: [Character], Y:[Character]) -> (IntMatrix,IntMatrix) {
     
     let m = X.count
