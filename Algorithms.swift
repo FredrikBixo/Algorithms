@@ -92,3 +92,97 @@ func longestSubSequence(X: [Character], Y:[Character]) -> (IntMatrix,IntMatrix) 
     return (c,b)
 }
 
+class Graph {
+    
+    enum Color {
+        case White
+        case Black
+        case Gray
+    }
+    
+    class Node {
+        var index = -100;
+        var exploreTime = -100;
+        var finishTime = 0;
+        var parent:Node?
+        var color:Color = Color.White
+    }
+    
+    private var time = 0;
+    private var V = 0;
+    private var nodes = Array<Node>()
+    private var adjacencyList = Array<Array<Node>>();
+    
+    init(v: Int) {
+        V = v;
+        for i in 0..<v {
+            let node = Node()
+            node.index = i
+            nodes.append(node)
+            adjacencyList.append(Array<Node>())
+        }
+    }
+    
+    subscript(index: Int) -> Node {
+        return nodes[index]
+    }
+    
+    func addEdge(v: Int, w:Int) {
+        let node = nodes[w-1]
+        adjacencyList[v-1].append(node)
+    }
+    
+    func BFS(s: Node) {
+        var s = s
+        s.exploreTime = 0
+        var visited = Array<Bool>(repeating: false, count: V+1)
+        var queue = Queue(array: Array<Node>());
+        
+        visited[s.index] = true;
+        queue.enqueue(s);
+        
+        while queue.count != 0 {
+            s = queue.dequeue()!;
+            print("Node \(s.index + 1) explored at \(s.exploreTime)")
+            for n in adjacencyList[s.index] {
+                if !visited[n.index] {
+                    n.exploreTime = s.exploreTime + 1
+                    visited[n.index] = true;
+                    queue.enqueue(n)
+                }
+            }
+        }
+    }
+
+    func DFS() {
+        time = 0
+        for node in nodes {
+            if node.color == .White {
+                DFSVisit(u: node)
+            }
+        }
+    }
+    
+    private func DFSVisit(u: Node) {
+        time = time + 1
+        print("Node \(u.index + 1) explored at \(time)")
+        u.exploreTime = time
+        u.color = .Gray
+        for v in adjacencyList[u.index] {
+            if (v.color == .White) {
+                DFSVisit(u: v)
+            }
+        }
+        u.color = .Black
+        time = time + 1
+        print("Node \(u.index + 1) finished at \(time)")
+        u.finishTime = time
+    }
+    
+    func topologicalSort() -> Array<Node> {
+        DFS()
+        return nodes.sorted(by: {$0.finishTime > $1.finishTime })
+    }
+    
+}
+
